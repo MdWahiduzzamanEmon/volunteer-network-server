@@ -25,6 +25,8 @@ async function run() {
     await client.connect();
     const database = client.db("volunteer_network");
     const v_works_Collection = database.collection("vWorks");
+    const volunteer_Register_Collection =
+      database.collection("volunteer_Register");
     
       
 //get all api
@@ -42,8 +44,15 @@ async function run() {
         console.log(result);
         res.send(result);
       });
-
-
+      
+//post api
+      app.post('/v_register', async (req, res) => {
+          const result = await volunteer_Register_Collection.insertOne(
+            req.body
+          );
+          console.log(result);
+          res.json(result)
+      })
 
 
 
