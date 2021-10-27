@@ -54,7 +54,13 @@ async function run() {
           res.json(result)
       })
 
-
+//event get api 
+      app.get("/events/:email", async (req, res) => {
+          const email = req.params.email
+          const query = { Email: email };
+          const result = await volunteer_Register_Collection.find(query).toArray();
+          res.send(result);
+      });
 
 
       
