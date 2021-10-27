@@ -41,7 +41,7 @@ async function run() {
         const id = req.params.id;
         const query = { _id: ObjectId(id) };
         const result = await v_works_Collection.findOne(query);
-        console.log(result);
+        // console.log(result);
         res.send(result);
       });
       
@@ -50,7 +50,7 @@ async function run() {
           const result = await volunteer_Register_Collection.insertOne(
             req.body
           );
-          console.log(result);
+        //   console.log(result);
           res.json(result)
       })
 
@@ -62,7 +62,14 @@ async function run() {
           res.send(result);
       });
 
-
+//event delete
+      app.delete("/eventDelete/:id", async (req, res) => {
+          const id = req.params.id;
+          const query = { _id: ObjectId(id) };
+          const result = await volunteer_Register_Collection.deleteOne(query);
+        //   console.log(result);
+          res.json(result)
+      })
       
   } finally {
     // await client.close();
