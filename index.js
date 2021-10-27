@@ -6,6 +6,8 @@ var cors = require("cors");
 
 const port = process.env.PORT || 5000;
 
+
+const ObjectId = require("mongodb").ObjectId;
 //middleware
 app.use(express.json());
 app.use(cors());
@@ -25,14 +27,21 @@ async function run() {
     const v_works_Collection = database.collection("vWorks");
     
       
-//get api
+//get all api
       app.get('/services', async (req, res) => {
           const services = v_works_Collection.find({});
           const result = await services.toArray();
           res.send(result);
       })
       
-
+//get one api
+      app.get('/services/id', async (req, res) => {
+          const id = req.params.id;
+          const query = { _id: ObjectId(id) };
+          const result = await v_works_Collection.findOne(query);
+          console.log(result);
+          res.send(result)
+      })
 
 
 
