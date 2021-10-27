@@ -15,6 +15,61 @@ const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+async function run() {
+  try {
+    await client.connect();
+    const database = client.db("volunteer_network");
+    const v_works_Collection = database.collection("vWorks");
+    
+      
+//get api
+      app.get('/services', async (req, res) => {
+          const services = v_works_Collection.find({});
+          const result = await services.toArray();
+          res.send(result);
+      })
+      
+
+
+
+
+
+
+
+      
+  } finally {
+    // await client.close();
+  }
+}
+run().catch(console.dir);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 console.log("connected",uri);
 app.get('/', (req, res) => {
     res.send('server is running');
