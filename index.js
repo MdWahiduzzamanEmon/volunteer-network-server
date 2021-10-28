@@ -41,7 +41,7 @@ async function run() {
         const id = req.params.id;
         const query = { _id: ObjectId(id) };
         const result = await v_works_Collection.findOne(query);
-        // console.log(result);
+        
         res.send(result);
       });
       
@@ -50,7 +50,6 @@ async function run() {
           const result = await volunteer_Register_Collection.insertOne(
             req.body
           );
-        //   console.log(result);
           res.json(result)
       })
 
@@ -67,14 +66,14 @@ async function run() {
           const id = req.params.id;
           const query = { _id: ObjectId(id) };
           const result = await volunteer_Register_Collection.deleteOne(query);
-          console.log(result);
+          
           res.json(result)
       })
 //get all the event memeber 
     app.get("/members", async (req, res) => {
       const cursor = volunteer_Register_Collection.find({});
       const result = await cursor.toArray();
-      console.log(result);
+    
       res.send(result)
     })
     //post event by admin memeber
@@ -82,7 +81,7 @@ async function run() {
     app.post('/addevent', async (req, res) => {
       const post = req.body;
       const result = await v_works_Collection.insertOne(post);
-      console.log(result);
+    
       res.json(result)
     })
   } finally {
@@ -91,33 +90,6 @@ async function run() {
 }
 run().catch(console.dir);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-console.log("connected",uri);
 app.get('/', (req, res) => {
     res.send('server is running');
 })
