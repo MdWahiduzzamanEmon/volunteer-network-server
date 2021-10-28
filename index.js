@@ -67,7 +67,7 @@ async function run() {
           const id = req.params.id;
           const query = { _id: ObjectId(id) };
           const result = await volunteer_Register_Collection.deleteOne(query);
-        //   console.log(result);
+          console.log(result);
           res.json(result)
       })
 //get all the event memeber 
@@ -76,6 +76,14 @@ async function run() {
       const result = await cursor.toArray();
       console.log(result);
       res.send(result)
+    })
+    //post event by admin memeber
+
+    app.post('/addevent', async (req, res) => {
+      const post = req.body;
+      const result = await v_works_Collection.insertOne(post);
+      console.log(result);
+      res.json(result)
     })
   } finally {
     // await client.close();
