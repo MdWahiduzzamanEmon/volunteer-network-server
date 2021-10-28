@@ -35,7 +35,13 @@ async function run() {
           const result = await services.toArray();
           res.send(result);
       })
-      
+//delete event api 
+    app.delete('/eventDelete/:id', async (req, res) => {
+      const id = req.params.id;
+       const query = { _id: ObjectId(id) };
+      const result = await v_works_Collection.deleteOne(query);
+      res.json(result)
+    })
 //get one api
       app.get("/services/:id", async (req, res) => {
         const id = req.params.id;
