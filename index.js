@@ -70,7 +70,13 @@ async function run() {
         //   console.log(result);
           res.json(result)
       })
-      
+//get all the event memeber 
+    app.get("/members", async (req, res) => {
+      const cursor = volunteer_Register_Collection.find({});
+      const result = await cursor.toArray();
+      console.log(result);
+      res.send(result)
+    })
   } finally {
     // await client.close();
   }
