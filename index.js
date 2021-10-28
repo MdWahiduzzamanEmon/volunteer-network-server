@@ -38,8 +38,11 @@ async function run() {
 //delete event api 
     app.delete('/eventDelete/:id', async (req, res) => {
       const id = req.params.id;
-       const query = { _id: ObjectId(id) };
-      const result = await v_works_Collection.deleteOne(query);
+      console.log(id);
+      const query = { _id: ObjectId(id) };
+      console.log(query);
+      const result = await volunteer_Register_Collection.deleteOne(query);
+      console.log(result);
       res.json(result)
     })
 //get one api
@@ -70,11 +73,11 @@ async function run() {
 //event delete
       app.delete("/volunteerDelete/:id", async (req, res) => {
         const id = req.params.id;
-        console.log(id);
+        // console.log(id);
         const query = { _id: ObjectId(id) };
-        console.log(query);
+        // console.log(query);
           const result = await volunteer_Register_Collection.deleteOne(query);
-          console.log(result);
+          
           res.json(result)
       })
 //get all the event memeber 
