@@ -3,11 +3,39 @@ const app = express();
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
 var cors = require("cors");
+var admin = require("firebase-admin");
 
 const port = process.env.PORT || 5000;
-
-
 const ObjectId = require("mongodb").ObjectId;
+
+// firebase setup 
+
+
+var serviceAccount = require("./vounteer-networks-firebase-adminsdk-jbzrc-618bd6d853.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+
+
+const verifyAccount = async (req, res, next) => {
+  if (req.headers.authorization) {
+    const idToken = req.headers.authorization.split("Bearer ")[1];
+    try {
+      const decodedToken = await admin.auth().verifyIdToken(idToken);
+      req.decodedEmailToken = decodedToken.email;
+    } catch {
+      
+    }
+  }
+ 
+  next();
+}
+
+
+
+
 //middleware
 app.use(express.json());
 app.use(cors());
@@ -63,12 +91,21 @@ async function run() {
       })
 
 //event get api by using email 
-    app.get("/events/:email", async (req, res) => {
-        console.log(req.headers.authorization);
-          const email = req.params.email
-          const query = { Email: email };
-          const result = await volunteer_Register_Collection.find(query).toArray();
-          res.send(result);
+    app.get("/events/:email",verifyAccount, async (req, res) => {
+        // console.log(req.headers.authorization);
+      const email = req.params.email
+      // console.log(req.decodedEmailToken);
+      if (req.decodedEmailToken === email) {
+        const query = { Email: email };
+        const result = await volunteer_Register_Collection
+          .find(query)
+          .toArray();
+        res.send(result);
+      } else {
+        // res.status(401).send('user not authorized')
+        res.status(401).json({message:'user not authorized'})
+      }
+         
       });
 
 //event delete
